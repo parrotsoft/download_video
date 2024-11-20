@@ -1,3 +1,5 @@
+from tkinter import filedialog
+
 import customtkinter
 from core import youtube
 
@@ -29,10 +31,15 @@ class Window(customtkinter.CTk):
                 self.status_label.configure(text="Por favor, ingresa una URl")
                 return
 
+            directory = filedialog.askdirectory()
+            if not directory:
+                self.status_label.configure(text="Por favor, seleccione un directorio")
+                return
+
             self.status_label.configure(text="Downloading...")
             self.button.configure(state='disabled')
 
-            success = youtube.download_video(self.entry_link.get())
+            success = youtube.download_video(self.entry_link.get(), directory)
 
             if success:
                 self.status_label.configure(text="Descarga completada!")
